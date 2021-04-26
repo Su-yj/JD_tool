@@ -1,0 +1,27 @@
+name: 取消关注
+
+on:
+  schedule:
+    - cron: '30 8 * * *'
+  watch:
+    types: [started]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+         
+      - name: 'Install requirements'
+        run: pip install -r ./requirements.txt 
+        
+      - name: 'run 取消关注' 
+        run: python3 jd_unfollow.py 
+        env:
+            JD_COOKIE: ${{ secrets.JD_COOKIE }}

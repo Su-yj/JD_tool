@@ -1,0 +1,26 @@
+name: 东东超市
+
+on:
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+         
+      - name: 'Install requirements'
+        run: pip install -r ./requirements.txt 
+        
+      - name: 'run 东东超市' 
+        run: python3 jd_superMarket.py 
+        env:
+            JD_COOKIE: ${{ secrets.JD_COOKIE }}
+          
