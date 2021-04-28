@@ -60,7 +60,7 @@ def takeTask(cookies):
             _task_infos = getBeanTaskList(cookies)
             temp = _task_infos[index]
             _beanDoTask = getTemplate(cookies, 'beanDoTask',
-                                      {"actionType": 0, "taskToken": temp['subTaskVOS']['taskToken']})
+                                      {"actionType": 0, "taskToken": temp['subTaskVOS'][0]['taskToken']})
             print(_beanDoTask)
             time.sleep(0.5)
 
