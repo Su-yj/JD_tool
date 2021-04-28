@@ -31,34 +31,39 @@ def getBeanTaskList(cookies, index=None):
     return _beanTaskList['data']['taskInfos'][index]
 
 
-def task_count(process):
-    done, total = process.split('/')
-    return int(total) - int(done)
+def task_count(task):
+    return task['maxTimes'] - task['times']
 
 
 def takeTask(cookies):
-    print('\n【签到】')
-    _signBeanAct = getTemplate(cookies, 'signBeanAct', {})
-    print(f"""signBeanAct: {_signBeanAct['data']}""")
-
-    print('\n领好券')
-    _queryCouponInfo = getTemplate(cookies, 'queryCouponInfo', {})
-    if str(_queryCouponInfo['code']) == '0':
-        print(f"""queryCouponInfo: {_queryCouponInfo['data']}""")
-        if 'couponTaskInfo' in _queryCouponInfo['data']:
-            for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo']['process'])):
-                _sceneGetCoupon = getTemplate(cookies, 'sceneGetCoupon', {})
-                print(_sceneGetCoupon)
+    # print('\n【签到】')
+    # _signBeanAct = getTemplate(cookies, 'signBeanAct', {})
+    # print(f"""signBeanAct: {_signBeanAct['data']}""")
+    #
+    # print('\n领好券')
+    # _queryCouponInfo = getTemplate(cookies, 'queryCouponInfo', {})
+    # if str(_queryCouponInfo['code']) == '0':
+    #     print(f"""queryCouponInfo: {_queryCouponInfo['data']}""")
+    #     if 'couponTaskInfo' in _queryCouponInfo['data']:
+    #         for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo']['process'])):
+    #             _sceneGetCoupon = getTemplate(cookies, 'sceneGetCoupon', {})
+    #             print(_sceneGetCoupon)
 
     print('\n【京豆任务列表】')
     _taskInfos = getBeanTaskList(cookies)
     print(f"""_taskInfos: {_taskInfos}""")
     for index, item in enumerate(_taskInfos):
         print(f">>>{item['taskName']}")
-        count = task_count(item['process'])
+        count = task_count(item)
         for _ in range(count):
             _task_infos = getBeanTaskList(cookies)
             temp = _task_infos[index]
+            if temp['taskType'] == 8:
+                time.sleep(1)
+                _beanDoTask = getTemplate(cookies, 'beanDoTask',
+                                          {"actionType": 1, "taskToken": temp['subTaskVOS'][0]['taskToken']})
+                print(_beanDoTask)
+                time.sleep(5)
             _beanDoTask = getTemplate(cookies, 'beanDoTask',
                                       {"actionType": 0, "taskToken": temp['subTaskVOS'][0]['taskToken']})
             print(_beanDoTask)
