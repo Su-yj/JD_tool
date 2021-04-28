@@ -69,6 +69,15 @@ def takeTask(cookies):
             print(_beanDoTask)
             time.sleep(0.5)
 
+    print('\n【抽京豆】')
+    _wheelSurfIndex = getTemplate(cookies, 'wheelSurfIndex', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome"})
+    print(_wheelSurfIndex)
+    if str(_wheelSurfIndex['code']) == '0':
+        for _ in _wheelSurfIndex['data']['lotteryCount']:
+            _lotteryDraw = getTemplate(cookies, 'lotteryDraw', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome",
+                                                                "lotteryCode": _wheelSurfIndex['data']['lotteryCode']})
+            print(_lotteryDraw)
+
 
 def run():
     for cookies in jdCookie.get_cookies():
