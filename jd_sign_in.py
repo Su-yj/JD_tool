@@ -36,18 +36,18 @@ def task_count(task):
 
 
 def takeTask(cookies):
-    # print('\n【签到】')
-    # _signBeanAct = getTemplate(cookies, 'signBeanAct', {})
-    # print(f"""signBeanAct: {_signBeanAct['data']}""")
-    #
-    # print('\n领好券')
-    # _queryCouponInfo = getTemplate(cookies, 'queryCouponInfo', {})
-    # if str(_queryCouponInfo['code']) == '0':
-    #     print(f"""queryCouponInfo: {_queryCouponInfo['data']}""")
-    #     if 'couponTaskInfo' in _queryCouponInfo['data']:
-    #         for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo']['process'])):
-    #             _sceneGetCoupon = getTemplate(cookies, 'sceneGetCoupon', {})
-    #             print(_sceneGetCoupon)
+    print('\n【签到】')
+    _signBeanAct = getTemplate(cookies, 'signBeanAct', {})
+    print(f"""signBeanAct: {_signBeanAct['data']}""")
+
+    print('\n领好券')
+    _queryCouponInfo = getTemplate(cookies, 'queryCouponInfo', {})
+    if str(_queryCouponInfo['code']) == '0':
+        print(f"""queryCouponInfo: {_queryCouponInfo['data']}""")
+        if 'couponTaskInfo' in _queryCouponInfo['data']:
+            for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo']['process'])):
+                _sceneGetCoupon = getTemplate(cookies, 'sceneGetCoupon', {})
+                print(_sceneGetCoupon)
 
     print('\n【京豆任务列表】')
     _taskInfos = getBeanTaskList(cookies)
