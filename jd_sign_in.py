@@ -35,7 +35,7 @@ def task_count(task):
     if 'maxTimes' in task and 'times' in task:
         return task['maxTimes'] - task['times']
     if 'process' in task:
-        times, maxTimes = task.split('/')
+        times, maxTimes = task['process'].split('/')
         return int(maxTime) - int(times)
     return 1
 
