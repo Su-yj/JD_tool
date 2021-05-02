@@ -19,11 +19,6 @@ jobs:
       - name: 'Install requirements'
         run: pip install -r ./requirements.txt 
         
-      - name: 'run 签到抽盲盒'
-        run: python3 jd_sign_in.py
-        env:
-            JD_COOKIE: ${{ secrets.JD_COOKIE }}
-
       - name: 'run 全民红包'
         run: python3 jd_red_packet.py
         env:
@@ -43,4 +38,13 @@ jobs:
         run: python3 jd_earn_jd.py 
         env:
             JD_COOKIE: ${{ secrets.JD_COOKIE }}
-            
+
+      - name: 'run 签到抽盲盒'
+        run: python3 jd_sign_in.py
+        env:
+          JD_COOKIE: ${{ secrets.JD_COOKIE }}
+
+      - name: 'run 摇京豆'
+        run: python3 jd_shark_bean.py
+        env:
+          JD_COOKIE: ${{ secrets.JD_COOKIE }}
