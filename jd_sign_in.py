@@ -32,7 +32,12 @@ def getBeanTaskList(cookies, index=None):
 
 
 def task_count(task):
-    return task['maxTimes'] - task['times']
+    if 'maxTimes' in task and 'times' in task:
+        return task['maxTimes'] - task['times']
+    if 'process' in task:
+        times, maxTimes = task['process'].split('/')
+        return int(maxTimes) - int(times)
+    return 1
 
 
 def takeTask(cookies):
@@ -45,7 +50,7 @@ def takeTask(cookies):
     if str(_queryCouponInfo['code']) == '0':
         print(f"""queryCouponInfo: {_queryCouponInfo['data']}""")
         if 'couponTaskInfo' in _queryCouponInfo['data']:
-            for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo']['process'])):
+            for _ in range(task_count(_queryCouponInfo['data']['couponTaskInfo'])):
                 _sceneGetCoupon = getTemplate(cookies, 'sceneGetCoupon', {})
                 print(_sceneGetCoupon)
 
