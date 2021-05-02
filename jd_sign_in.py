@@ -72,10 +72,12 @@ def takeTask(cookies):
     print('\n【抽京豆】')
     _wheelSurfIndex = getTemplate(cookies, 'wheelSurfIndex', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome"})
     print(_wheelSurfIndex)
-    if str(_wheelSurfIndex['code']) == '0':
-        for _ in _wheelSurfIndex['data']['lotteryCount']:
+    if str(_wheelSurfIndex.get('code')) == '0':
+        _lotteryCount = _wheelSurfIndex.get('data', {}).get('lotteryCount', 0)
+        _lotteryCode = _wheelSurfIndex.get('data', {}).get('lotteryCode', '')
+        for _ in range(int(_lotteryCount)):
             _lotteryDraw = getTemplate(cookies, 'lotteryDraw', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome",
-                                                                "lotteryCode": _wheelSurfIndex['data']['lotteryCode']})
+                                                                "lotteryCode": _lotteryCode})
             print(_lotteryDraw)
 
 
