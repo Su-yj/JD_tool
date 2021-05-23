@@ -72,7 +72,7 @@ def takeTask(cookies):
             _beanDoTask = getTemplate(cookies, 'beanDoTask',
                                       {"actionType": 0, "taskToken": temp['subTaskVOS'][0]['taskToken']})
             print(_beanDoTask)
-            time.sleep(0.5)
+            time.sleep(1)
 
     print('\n【抽京豆】')
     _wheelSurfIndex = getTemplate(cookies, 'wheelSurfIndex', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome"})
@@ -84,6 +84,7 @@ def takeTask(cookies):
             _lotteryDraw = getTemplate(cookies, 'lotteryDraw', {"actId": "jgpqtzjhvaoym", "appSource": "jdhome",
                                                                 "lotteryCode": _lotteryCode})
             print(_lotteryDraw)
+            time.sleep(2)
 
     print('\n【领券中心签到】')
     _ccSignInNew = getTemplate(cookies, 'ccSignInNew', {"childActivityUrl":"openapp.jdmobile://virtual?params={\"category\":\"jump\",\"des\":\"couponCenter\"}","eid":"eidAc60281219ds56y7bfTjPRgC2+vFE4+9vXesu3O/RkrYFjrT9rca5B5qHKfk2In+ow3hDxMlTwnbZ4kewv76reXs0S0pLCpM8BWA0kLf6i66Qk5Vm","monitorRefer":"appClient","monitorSource":"cc_sign_android_index_config","pageClickKey":"Coupons_GetCenter","pin":"66cbdc7359341c8a283459756f904238","sessionId":"","shshshfpb":"dzKrj2i+brHqG6p7BOVXmP3bRiFlNUtPhpCtvSHynppq0V7dDtpDQ77pCII5Rrpak","verifyToken":""})
