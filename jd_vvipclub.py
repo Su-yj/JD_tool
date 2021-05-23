@@ -46,12 +46,8 @@ def run():
         print("browseTask: ", m)
         if m > 0:
             _ids = [i["id"] for i in browseTask["taskItems"] if not i["finish"]]
-            for i in range(m):
-                try:
-                    print(template(cookies, "vvipclub_doTask", {
-                        "taskName": "browseTask", "taskItemId": _ids.pop()}))
-                except:
-                    pass
+            for item in _ids[::-1]:
+                print(template(cookies, "vvipclub_doTask", {"taskName": "browseTask", "taskItemId": item}))
                 time.sleep(1)
 
         n = attentionTask["totalPrizeTimes"] - attentionTask["currentFinishTimes"]
@@ -60,14 +56,12 @@ def run():
         if n > 0:
             _ids = [i["id"] for i in attentionTask["taskItems"] if not i["finish"]]
             for i in range(n):
-                print(template(cookies, "vvipclub_doTask", {
-                    "taskName": "attentionTask", "taskItemId": str(_ids.pop())}))
+                print(template(cookies, "vvipclub_doTask", {"taskName": "attentionTask", "taskItemId": str(_ids.pop())}))
                 time.sleep(2)
         freeTimes = shake(cookies)
         print("freeTimes", freeTimes)
         for i in range(freeTimes):
-            print(template(cookies, "vvipclub_shaking", {
-                "type": "0"}))
+            print(template(cookies, "vvipclub_shaking", {"type": "0"}))
             time.sleep(1)
         time.sleep(1)
         print("\n\n")
