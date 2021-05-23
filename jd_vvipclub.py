@@ -47,8 +47,11 @@ def run():
         if m > 0:
             _ids = [i["id"] for i in browseTask["taskItems"] if not i["finish"]]
             for i in range(m):
-                print(template(cookies, "vvipclub_doTask", {
-                    "taskName": "browseTask", "taskItemId": _ids.pop()}))
+                try:
+                    print(template(cookies, "vvipclub_doTask", {
+                        "taskName": "browseTask", "taskItemId": _ids.pop()}))
+                except:
+                    pass
                 time.sleep(1)
 
         n = attentionTask["totalPrizeTimes"] - attentionTask["currentFinishTimes"]
