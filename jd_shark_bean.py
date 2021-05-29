@@ -1,3 +1,5 @@
+import traceback
+
 import jdCookie
 import json
 import requests
@@ -54,6 +56,14 @@ def run():
         #     for _ in range(remainLotteryTimes):
         #         vvipclub_shaking_lottery = postTemplate(cookies, 'vvipclub_shaking_lottery', {})
         #         print(vvipclub_shaking_lottery)
+        try:
+            pg_interact_interface_invoke = postTemplate(cookies, 'pg_interact_interface_invoke',
+                                                        {"floorToken": "f1d574ec-b1e9-43ba-aa84-b7a757f27f0e",
+                                                         "dataSourceCode": "signIn",
+                                                         "argMap": {"currSignCursor": 2}})
+            print(pg_interact_interface_invoke)
+        except:
+            traceback.print_exc()
         while True:
             vvipclub_shaking_lottery = postTemplate(cookies, 'vvipclub_shaking_lottery', {})
             print(vvipclub_shaking_lottery)
