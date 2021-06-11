@@ -228,7 +228,7 @@ def run():
             print(
                 f"""[{i["taskName"]}]  {i["gainedNum"]}/{i["totalNum"]}   {i["isFinished"]} """)
 
-        egg(cookies)
+        # egg(cookies)
         waterWheel(cookies,currentRoundId)
         steal(cookies, currentRoundId)
         water(cookies,currentRoundId)
