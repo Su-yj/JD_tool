@@ -3,7 +3,6 @@ import time
 import json
 import jdCookie
 
-
 """
 种豆得豆
 
@@ -14,6 +13,7 @@ import jdCookie
 plantUuid = ["7pt22jcko7ljrbpeask7r6avre3h7wlwy7o5jii",
              "r7zdf2yfo4phlpel3nu4q63reu",
              "e7lhibzb3zek2ssdsoyhpgn26va7nkkzj6ygely"]  # 填写别人的助力码
+
 
 def functionTemplate(cookies, functionId, body):
     headers = {
@@ -83,19 +83,18 @@ def takeTask(cookies, taskList):
 
         if i["taskType"] == 3:
             print("浏览店铺")
-            N = int(i["totalNum"])-int(i["gainedNum"])
-            plant_shopList = functionTemplate(cookies, "shopTaskList", {
-                                              "monitor_refer": "plant_receiveNutrients"})["data"]
-            goodShopList = [
-                i for i in plant_shopList["goodShopList"] if i["taskState"] == "2"]
-            moreShopList = [
-                i for i in plant_shopList["moreShopList"] if i["taskState"] == "2"]
+            N = int(i["totalNum"]) - int(i["gainedNum"])
+            plant_shopList = functionTemplate(cookies, "shopTaskList", {"monitor_refer": "plant_receiveNutrients"})[
+                "data"]
+            goodShopList = [i for i in plant_shopList["goodShopList"] if i["taskState"] == "2"]
+            moreShopList = [i for i in plant_shopList["moreShopList"] if i["taskState"] == "2"]
             shopList = goodShopList + moreShopList
             for shop in shopList:
                 shopTaskId = shop["shopTaskId"]
                 shopId = shop["shopId"]
-                result = functionTemplate(cookies, "shopNutrientsTask", {
-                                          "monitor_refer": "plant_shopNutrientsTask", "shopId": str(shopId), "shopTaskId": str(shopTaskId)})
+                result = functionTemplate(cookies, "shopNutrientsTask",
+                                          {"monitor_refer": "plant_shopNutrientsTask", "shopId": str(shopId),
+                                           "shopTaskId": str(shopTaskId)})
                 print(result)
                 if "data" in result:
                     if result["data"]["nutrState"] == "1":
@@ -105,18 +104,16 @@ def takeTask(cookies, taskList):
                 time.sleep(1)
         if i["taskType"] == 10:
             print("关注频道")
-            N = int(i["totalNum"])-int(i["gainedNum"])
-            plant_ChannelList = functionTemplate(
-                cookies, "plantChannelTaskList", {})["data"]
-            goodChannelList = [
-                i for i in plant_ChannelList["goodChannelList"] if i["taskState"] == "2"]
-            normalChannelList = [
-                i for i in plant_ChannelList["normalChannelList"] if i["taskState"] == "2"]
-            channelList = goodChannelList+normalChannelList
+            N = int(i["totalNum"]) - int(i["gainedNum"])
+            plant_ChannelList = functionTemplate(cookies, "plantChannelTaskList", {})["data"]
+            goodChannelList = [i for i in plant_ChannelList["goodChannelList"] if i["taskState"] == "2"]
+            normalChannelList = [i for i in plant_ChannelList["normalChannelList"] if i["taskState"] == "2"]
+            channelList = goodChannelList + normalChannelList
 
             for channel in channelList:
-                result = functionTemplate(cookies, "plantChannelNutrientsTask", {"channelTaskId": channel["channelTaskId"], "channelId": channel["channelId"]
-                                                                                 })
+                result = functionTemplate(cookies, "plantChannelNutrientsTask",
+                                          {"channelTaskId": channel["channelTaskId"],
+                                           "channelId": channel["channelId"]})
                 print(result)
                 if "data" in result:
                     if result["data"]["nutrState"] == "1":
@@ -126,16 +123,17 @@ def takeTask(cookies, taskList):
                 time.sleep(1)
         if i["taskType"] == 5:
             print("挑选商品")
-            N = int(i["totalNum"])-int(i["gainedNum"])
-            productInfoList = functionTemplate(cookies, "productTaskList", {
-                                               "monitor_refer": "plant_productTaskList"})["data"]["productInfoList"]
+            N = int(i["totalNum"]) - int(i["gainedNum"])
+            productInfoList = \
+            functionTemplate(cookies, "productTaskList", {"monitor_refer": "plant_productTaskList"})["data"][
+                "productInfoList"]
             productList = sum(productInfoList, [])
-            productList = list(
-                filter(lambda i: i["taskState"] == "2", productList))
+            productList = list(filter(lambda x: x["taskState"] == "2", productList))
 
             for product in productList:
-                result = functionTemplate(cookies, "productNutrientsTask", {
-                                          "productTaskId": product["productTaskId"], "skuId": product["skuId"], "monitor_refer": "plant_productNutrientsTask"})
+                result = functionTemplate(cookies, "productNutrientsTask",
+                                          {"productTaskId": product["productTaskId"], "skuId": product["skuId"],
+                                           "monitor_refer": "plant_productNutrientsTask"})
                 print(result)
                 if "data" in result:
                     if result["data"]["nutrState"] == "1":
@@ -147,8 +145,8 @@ def takeTask(cookies, taskList):
 
 def _help(cookies, plantUuid):
     for i in plantUuid:
-        functionTemplate(cookies, "plantBeanIndex", {
-                         "plantUuid": i, "followType": "1", "wxHeadImgUrl": "", "shareUuid": "", })
+        functionTemplate(cookies, "plantBeanIndex",
+                         {"plantUuid": i, "followType": "1", "wxHeadImgUrl": "", "shareUuid": "", })
 
 
 def steal(cookies, roundId):
@@ -160,31 +158,27 @@ def steal(cookies, roundId):
     if "tips" in result["data"]:
         print("今日已达上限")
         return
-    stealList = [i for i in result["data"]
-                 ["friendInfoList"] if "nutrCount" in i]
+    stealList = [i for i in result["data"]["friendInfoList"] if "nutrCount" in i]
 
     for i in stealList:
         if int(i["nutrCount"]) == 3:  # 为3时才会偷取
             print(i)
-            print(functionTemplate(cookies, "collectUserNutr", {
-                "paradiseUuid": i["paradiseUuid"], "roundId": roundId}))
+            print(functionTemplate(cookies, "collectUserNutr", {"paradiseUuid": i["paradiseUuid"], "roundId": roundId}))
             time.sleep(2)
 
 
-def getReward(cookies, status,lastRoundId):
+def getReward(cookies, status, lastRoundId):
     print("\n[收获状况]")
     if status == "5":
-        data = functionTemplate(
-            cookies, "receivedBean", {"roundId": lastRoundId})["data"]
+        data = functionTemplate(cookies, "receivedBean", {"roundId": lastRoundId})["data"]
         print(f"""{data["growth"]}成长值兑换{data["awardBean"]}京豆""")
     if status == "6":
         print("您已领奖，去京豆明细页看看")
 
 
-def water(cookies,currentRoundId):
+def water(cookies, currentRoundId):
     print("\n[浇水ing]")
-    result = functionTemplate(cookies, "cultureBean", {
-        "roundId": currentRoundId, "monitor_refer": "plant_index"})
+    result = functionTemplate(cookies, "cultureBean", {"roundId": currentRoundId, "monitor_refer": "plant_index"})
     if "errorMessage" in result:
         print(result["errorMessage"])
         return
@@ -192,48 +186,48 @@ def water(cookies,currentRoundId):
 
 def egg(cookies):
     print("\n[天天扭蛋]")
-    restLotteryNum = functionTemplate(cookies, "plantEggLotteryIndex", {})[
-        "data"]["restLotteryNum"]
+    restLotteryNum = functionTemplate(cookies, "plantEggLotteryIndex", {})["data"]["restLotteryNum"]
     if restLotteryNum == 0:
         print(">>>暂无扭蛋")
     for i in range(restLotteryNum):
-        print(">>>扭蛋 ", i+1)
+        print(">>>扭蛋 ", i + 1)
         functionTemplate(cookies, "plantEggDoLottery", {})
 
 
-def waterWheel(cookies,currentRoundId):
+def waterWheel(cookies, currentRoundId):
+    print(currentRoundId)
     print("\n[水车生产(6-21)]")
-    result = functionTemplate(cookies, "receiveNutrients", {
-        "roundId": currentRoundId, "monitor_refer": "plant_receiveNutrients"})
+    result = functionTemplate(cookies, "receiveNutrients",
+                              {"roundId": currentRoundId, "monitor_refer": "plant_receiveNutrients"})
     if "errorMessage" in result:
         print(result["errorMessage"])
         return
 
+
 def run():
     for cookies in jdCookie.get_cookies():
         plantBeanIndex = postTemplate(cookies, "plantBeanIndex", {})
-        print(
-            f"""【{plantBeanIndex["data"]["plantUserInfo"]["plantNickName"]}】\n""")
-        print(
-            f"""我的助力码: {plantBeanIndex["data"]["jwordShareInfo"]["shareUrl"].split("=")[-1]}\n""")
+        print(f"""【{plantBeanIndex["data"]["plantUserInfo"]["plantNickName"]}】\n""")
+        print(f"""我的助力码: {plantBeanIndex["data"]["jwordShareInfo"]["shareUrl"].split("=")[-1]}\n""")
         _help(cookies, plantUuid)
         roundList = plantBeanIndex["data"]["roundList"]
         lastRoundId = roundList[0]["roundId"]  # 上期id
-        currentRoundId = roundList[1]["roundId"]  # 本期id
+        currentRoundId = roundList[-1]["roundId"]  # 本期id
         taskList = plantBeanIndex["data"]["taskList"]  # 任务列表
 
         takeTask(cookies, taskList)  # 执行每日任务
         print("     任务   进度")
         for i in postTemplate(cookies, "plantBeanIndex", {})["data"]["taskList"]:
-            print(
-                f"""[{i["taskName"]}]  {i["gainedNum"]}/{i["totalNum"]}   {i["isFinished"]} """)
+            print(f"""[{i["taskName"]}]  {i["gainedNum"]}/{i["totalNum"]}   {i["isFinished"]} """)
 
         # egg(cookies)
-        waterWheel(cookies,currentRoundId)
+        waterWheel(cookies, currentRoundId)
         steal(cookies, currentRoundId)
-        water(cookies,currentRoundId)
-        getReward(cookies, roundList[0]["awardState"],lastRoundId)
+        water(cookies, currentRoundId)
+        getReward(cookies, roundList[0]["awardState"], lastRoundId)
         print("\nEND\n")
-        print("##"*30)
+        print("##" * 30)
+
+
 if __name__ == "__main__":
     run()
