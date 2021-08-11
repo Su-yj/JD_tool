@@ -207,12 +207,13 @@ def waterWheel(cookies, currentRoundId):
 def run():
     for cookies in jdCookie.get_cookies():
         plantBeanIndex = postTemplate(cookies, "plantBeanIndex", {})
+        # print(plantBeanIndex)
         print(f"""【{plantBeanIndex["data"]["plantUserInfo"]["plantNickName"]}】\n""")
         print(f"""我的助力码: {plantBeanIndex["data"]["jwordShareInfo"]["shareUrl"].split("=")[-1]}\n""")
         _help(cookies, plantUuid)
         roundList = plantBeanIndex["data"]["roundList"]
         lastRoundId = roundList[0]["roundId"]  # 上期id
-        currentRoundId = roundList[-1]["roundId"]  # 本期id
+        currentRoundId = ([i for i in roundList if i['roundState'] == '2'] or [roundList[1]])[0]["roundId"]  # 本期id
         taskList = plantBeanIndex["data"]["taskList"]  # 任务列表
 
         takeTask(cookies, taskList)  # 执行每日任务
