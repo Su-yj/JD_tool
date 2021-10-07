@@ -30,9 +30,9 @@ import traceback
 
 """
 # 参数设置,开启置1,关闭置0
-flag_upgrade = 1              # 额外,自动升级   顺序:解锁升级商品(高等)、升级货架
-flag_limitTimeProduct = 1     # 自动上架限时商品(替换普通商品,同类型至少两个商品)
-flag_pk = 1                   # 自动加入zero的队伍
+flag_upgrade = 1  # 额外,自动升级   顺序:解锁升级商品(高等)、升级货架
+flag_limitTimeProduct = 1  # 自动上架限时商品(替换普通商品,同类型至少两个商品)
+flag_pk = 1  # 自动加入zero的队伍
 flag_prize_1000 = 1  # 京豆打包兑换
 flag_prize_1 = 1  # 单个京豆兑换,万能的京豆
 
@@ -98,7 +98,7 @@ def receiveBlue(cookies):
 def receiveCoin(cookies):
     print("\n【收银台收钱】")
     data = getTemplate(cookies, "smtg_receiveCoin", {
-                       "type": 4, "channel": "1"})["data"]
+        "type": 4, "channel": "1"})["data"]
     if data["bizCode"] == 802:
         print(data["bizMsg"])
         return
@@ -110,10 +110,10 @@ def receiveCoin(cookies):
     if result["isUpgradeFlag"] and "userUpgradeBlueVos" in result:
         for i in result["userUpgradeBlueVos"]:
             data = getTemplate(cookies, "smtg_receiveCoin", {
-                               "type": 5, "channel": "1", "id": i["id"]})["data"]["result"]
+                "type": 5, "channel": "1", "id": i["id"]})["data"]["result"]
             print(data)
-            
-            
+
+
 def upgrade(cookies):
     if flag_upgrade == 0:
         return
@@ -126,7 +126,7 @@ def upgrade(cookies):
     shelfCategory_2 = [i for i in productList if i["shelfCategory"] == 2][-3:]
     shelfCategory_3 = [i for i in productList if i["shelfCategory"] == 3][-2:]
 
-    for i in shelfCategory_1+shelfCategory_2+shelfCategory_3:
+    for i in shelfCategory_1 + shelfCategory_2 + shelfCategory_3:
         print(i["unlockStatus"], i["name"])
         # if i["unlockStatus"] == 1:
         #     # print(i)
@@ -169,7 +169,7 @@ def shelfList(cookies):
             productTypeDict = {1: "", 2: "(限时商品)"}
             print(
                 f"""[{i["productInfo"]["name"]}]{productTypeDict[i["productInfo"]["productType"]]}""")
-        print("--"*20)
+        print("--" * 20)
 
 
 def sign(cookies):
@@ -240,7 +240,7 @@ def dailyTask(cookies):
 def ground(cookies, productId, shelfId):
     print(f">>>安排生产")
     data = getTemplate(cookies, "smtg_ground", {
-                       "productId": productId, "shelfId": shelfId})
+        "productId": productId, "shelfId": shelfId})
     print(data)
 
 
@@ -251,7 +251,8 @@ def unlockproductbyCategory(cookies, Category):
     productList = getTemplate(cookies, "smtg_productList", {})[
         "data"]["result"]["productList"]
     productListByCategory = [
-        i for i in productList if "unlockStatus" in i and i["unlockStatus"] == 1 and str(i["shelfCategory"]) == str(Category)]
+        i for i in productList if
+        "unlockStatus" in i and i["unlockStatus"] == 1 and str(i["shelfCategory"]) == str(Category)]
     if not productListByCategory:
         print("该类型商品暂时无法解锁")
         return
@@ -297,7 +298,6 @@ def shelfProductList(cookies, shelfId):
                         for i in productList if i["productType"] == 2]  # 此处限时商品未分配才会出现
 
     if limitTimeProduct:
-
         print("优先上架限时产品")
         ground(cookies, limitTimeProduct[0], shelfId)
         return
@@ -332,7 +332,7 @@ def lottery(cookies):
     print("\n【招财进宝】")
     for _ in range(3):
         result = getTemplate(cookies, "smtg_drawLottery", {
-                             "costType": 1, "channel": 1})["data"]
+            "costType": 1, "channel": 1})["data"]
         if result["success"]:
             print(result["result"])
         else:
@@ -361,26 +361,25 @@ def pk(cookies):
 
     if data["pkStatus"] == 3:
         print("pk暂停")
-        
-    
+
     if data["joinStatus"] == 0 and flag_pk == 1:
         try:
             resopnse = requests.get(
-            "https://raw.githubusercontent.com/Zero-S1/tmp/main/jd_smPkInfo.json", timeout=2)
+                "https://raw.githubusercontent.com/Zero-S1/tmp/main/jd_smPkInfo.json", timeout=2)
             print(resopnse.text)
         except:
             print("无法连接github 跳过")
             return
-        tmp=resopnse.json()
+        tmp = resopnse.json()
         if tmp["pkActivityId"] != data["pkActivityId"]:
             print("还未更新,等待下次运行")
             return
         print("自动加入pk队伍")
         # print(tmp)
         result1 = getTemplate(cookies, "smtg_joinPkTeam", {"teamId": tmp["teamId"],
-                                                           "inviteCode": random.choice(tmp["inviteCode"]), "sharePkActivityId": data["pkActivityId"], "channel": "3"})
+                                                           "inviteCode": random.choice(tmp["inviteCode"]),
+                                                           "sharePkActivityId": data["pkActivityId"], "channel": "3"})
         print(result1)
-    
 
 
 def manage(cookies):
@@ -453,19 +452,20 @@ def exchangeBean_1000(cookies):
         if data["bizCode"] != 0:
             print(data["bizMsg"])
 
+
 def run():
     cookiesList = jdCookie.get_cookies()
     for cookies in cookiesList:
         print(f"""[ {cookies["pt_pin"]} ]""")
-        receiveCoin(cookies)
-        #receiveBlue(cookies)
-        #shelfList(cookies)
-        #upgrade(cookies)
+        # receiveCoin(cookies)
+        # receiveBlue(cookies)
+        # shelfList(cookies)
+        # upgrade(cookies)
         sign(cookies)
         dailyTask(cookies)
         # manage(cookies)
-        #limitTimePro(cookies)
-        #pk(cookies)
+        # limitTimePro(cookies)
+        # pk(cookies)
         lottery(cookies)
         try:
             exchangeBean_1000(cookies)
@@ -475,8 +475,9 @@ def run():
             print(exchangeBean_1(cookies))
         except:
             traceback.format_exc()
-        print("##"*25)
+        print("##" * 25)
         print("\n\n")
+
 
 if __name__ == "__main__":
     run()
