@@ -63,7 +63,7 @@ def takeTask(cookies):
         for _ in range(count):
             _task_infos = getBeanTaskList(cookies)
             temp = _task_infos[index]
-            if temp['taskType'] == 8:
+            if temp['taskType'] in [8, 9]:
                 time.sleep(1)
                 _beanDoTask = getTemplate(cookies, 'beanDoTask',
                                           {"actionType": 1, "taskToken": temp['subTaskVOS'][0]['taskToken']})
