@@ -24,10 +24,10 @@ jobs:
         env:
             JD_COOKIE: ${{ secrets.JD_COOKIE }}
 
-      - name: 'run 进店领豆' 
-        run: python3 jd_shop.py 
-        env:
-            JD_COOKIE: ${{ secrets.JD_COOKIE }}
+#       - name: 'run 进店领豆' 
+#         run: python3 jd_shop.py 
+#         env:
+#             JD_COOKIE: ${{ secrets.JD_COOKIE }}
 
       - name: 'run 领京豆- 摇京豆' 
         run: python3 jd_vvipclub.py 
