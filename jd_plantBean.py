@@ -86,8 +86,8 @@ def takeTask(cookies, taskList):
             N = int(i["totalNum"]) - int(i["gainedNum"])
             plant_shopList = functionTemplate(cookies, "shopTaskList", {"monitor_refer": "plant_receiveNutrients"})[
                 "data"]
-            goodShopList = [i for i in plant_shopList["goodShopList"] if i["taskState"] == "2"]
-            moreShopList = [i for i in plant_shopList["moreShopList"] if i["taskState"] == "2"]
+            goodShopList = [i for i in plant_shopList.get('goodShopList', []) if i["taskState"] == "2"]
+            moreShopList = [i for i in plant_shopList.get('moreShopList', []) if i["taskState"] == "2"]
             shopList = goodShopList + moreShopList
             for shop in shopList:
                 shopTaskId = shop["shopTaskId"]
