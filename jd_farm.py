@@ -110,7 +110,7 @@ def water(cookies):
         return
     for i in range(waterTimesLimit):
         print(f"自动浇水...[{i}]")
-        time.sleep(0.2)
+        time.sleep(1)
         waterInfo = postTemplate(cookies, "waterGoodForFarm", {})  # 实际浇水
         print(waterInfo)
         totalEnergy = waterInfo["totalEnergy"]
