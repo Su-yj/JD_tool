@@ -372,7 +372,7 @@ def run():
         clockIn(cookies)
         _help(cookies, shareCodes)
         takeTask(cookies)
-        masterHelp(cookies)
+        # masterHelp(cookies)
         luck(cookies)
         duck(cookies)
         friends(cookies)
