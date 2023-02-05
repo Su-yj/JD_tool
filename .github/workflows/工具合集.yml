@@ -19,10 +19,10 @@ jobs:
       - name: 'Install requirements'
         run: pip install -r ./requirements.txt 
         
-      - name: 'run 全民红包'
-        run: python3 jd_red_packet.py
-        env:
-            JD_COOKIE: ${{ secrets.JD_COOKIE }}
+#      - name: 'run 全民红包'
+#        run: python3 jd_red_packet.py
+#        env:
+#            JD_COOKIE: ${{ secrets.JD_COOKIE }}
 
 #       - name: 'run 进店领豆' 
 #         run: python3 jd_shop.py 
