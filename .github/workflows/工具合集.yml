@@ -44,7 +44,7 @@ jobs:
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
 
-      - name: 'run 摇京豆'
-        run: python3 jd_shark_bean.py
-        env:
-          JD_COOKIE: ${{ secrets.JD_COOKIE }}
+      # - name: 'run 摇京豆'
+      #   run: python3 jd_shark_bean.py
+      #   env:
+      #     JD_COOKIE: ${{ secrets.JD_COOKIE }}
